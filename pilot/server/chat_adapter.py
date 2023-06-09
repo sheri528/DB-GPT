@@ -106,10 +106,21 @@ class ProxyllmChatAdapter(BaseChatAdpter):
         return proxyllm_generate_stream
 
 
+class GPT4AllChatAdapter(BaseChatAdpter):
+
+    def match(self, model_path: str):
+        return "gpt4all" in model_path
+
+    def get_generate_stream_func(self):
+        from pilot.model.llm_out.gpt4all_llm import gpt4all_generate_stream
+
+        return gpt4all_generate_stream
+
+
 register_llm_model_chat_adapter(VicunaChatAdapter)
 register_llm_model_chat_adapter(ChatGLMChatAdapter)
 register_llm_model_chat_adapter(GuanacoChatAdapter)
-
+register_llm_model_chat_adapter(GPT4AllChatAdapter)
 
 # Proxy model for test and develop, it's cheap for us now.
 register_llm_model_chat_adapter(ProxyllmChatAdapter)
